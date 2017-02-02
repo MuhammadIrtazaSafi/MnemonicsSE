@@ -6,12 +6,11 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+var routes = require('../routes/routes.js');
+
 //Example endpoint. 
-app.get('/', function(req ,res){
-  res.send("Server is up.");
-});
+app.get('/', routes.test);
 
-
-var port = 8000
+var port = 8000;
 app.listen(port);
 console.log("Mnemonics server is listening on port: " + port);
