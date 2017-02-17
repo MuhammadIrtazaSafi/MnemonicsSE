@@ -5,11 +5,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+module.exports = app;
 
-var routes = require('../routes/routes.js');
+var user_routes = require('./routes/users.js');
+var vote_routes = require('./routes/votes.js');
+var word_routes = require('./routes/words.js');
 
 //Example endpoint. 
-app.get('/', routes.test);
+app.get('/test', user_routes.test);
 
 var port = 8000;
 app.listen(port);
