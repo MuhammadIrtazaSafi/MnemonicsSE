@@ -1,15 +1,17 @@
 var pg = require('pg');
 var Pool = pg.Pool;
 var pool = new Pool({
-  user: 'foo',
-  password: 'bar',
+  user: 'postgres',
+  password: '',
   host: 'localhost',
-  database: 'my_db',
+  database: 'mnemonics',
   max: 100, // max number of clients in pool
   idleTimeoutMillis: 1000, // close & remove clients which have been idle > 1 second
 });
 
 module.exports =  {
+  pg : pg,
+  
   getConnection: function () {
     return new Promise(function(resolve,reject){
       pool.connect(function(err,client){
