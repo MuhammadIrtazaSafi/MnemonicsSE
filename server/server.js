@@ -1,9 +1,21 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var sessionStore = require('connect-pg-simple');
 var app = express();
+var db = require('./database/db.js');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
+}));
+var conString = 'postgres://postgres@localhost/mnemonics';
+app.use(session({
+  store : new (sessionStore(session))({conString}),
+  pg : db.pg,
+  secret: "this is our cookie secret.",
+  resave: false,
+  saveUninitialized : false,
+  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days 
 }));
 module.exports = app;
 
@@ -13,6 +25,7 @@ var word_routes = require('./routes/words.js');
 
 //Example endpoint. 
 app.get('/test', user_routes.test);
+app.post('/registerUser', user_routes.registerUser);
 
 var port = 8000;
 app.listen(port);
