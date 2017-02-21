@@ -1,0 +1,28 @@
+<ion-view hide-nav-bar="true">
+  <ion-content>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div class="text-center">
+      <img width="50%" height="50%"
+           src="img/mainIcon.png"/>
+    </div>
+    <div class="list card">
+      <label class="item item-input">
+        <input type="email" placeholder="Email" ng-model="data.email">
+      </label>
+      <label class="item item-input">
+        <input type="password" placeholder="Password" ng-model="data.password">
+      </label>
+    </div>
+    <div class="padding">
+      <button class="button button-block button-balanced" ng-click="login()">Login</button>
+      <a href="#/createAccount" class="button button-block button-calm">Create New Account</a>
+      <!--<a href="#/tab/requests" class="button button-block button-royal">Developer Access</a>-->
+      <!--<button ng-click="sendRequest()" class="button button-block button-royal">Send Http Request</button>-->
+    </div>
+
+  </ion-content>
+</ion-view>
