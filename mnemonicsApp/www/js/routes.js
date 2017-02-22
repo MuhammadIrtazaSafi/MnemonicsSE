@@ -29,6 +29,13 @@ routingModule.config(function($stateProvider,$urlRouterProvider) {
     controller:'mainDeckPageController'
   });
 
+
+  $stateProvider.state('settings',{
+    url:'/settings',
+    templateUrl:'templates/settings.html',
+    controller:'settingsController'
+  });
+
   $urlRouterProvider.otherwise('/login');
 
 });
