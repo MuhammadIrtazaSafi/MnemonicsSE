@@ -1,16 +1,42 @@
 <ion-view>
   <div class="bar bar-header bar-light">
     <button class="button button-icon icon ion-chevron-left" ng-click="goBack()"></button>
-    <h1 class="title">Settings</h1>
+    <h1 class="title">Test Screen</h1>
   </div>
   <ion-content class="has-header">
+    <div class="card">
+      <div class="padding text-center">
+        <h3>Word</h3>
+      </div>
+      <div class="item item-text-wrap">
+        <h3>Definition:</h3>
+        This is the definition for the word, typically it should be less than 255 characters
 
-
-    <div class="padding text-center">
-      <button class="button button-block button-energized">Logout</button>
-      <button class="button button-block button-assertive">Delete Account</button>
+      </div>
     </div>
 
 
+
+
   </ion-content>
+
+  <div class="buttonMenu">
+    <div class="voteButtons">
+      <button class="button icon ion-thumbsdown"></button>
+      <button class="button icon ion-thumbsup"></button>
+    </div>
+
+    <div class="button-bar">
+      <button class="button button-full button-positive">Suggest Mnemonic</button>
+    </div>
+
+
+    <div class="button-bar" style="float: left">
+      <button class="button button-large button-assertive">Don't Know</button>
+      <button class="button button-large button-balanced">Know Word</button>
+    </div>
+  </div>
+
+
+
 </ion-view>

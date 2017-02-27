@@ -1,0 +1,10 @@
+.buttonMenu{
+  display: list-item;
+  position: absolute;
+  bottom:5px; left:0;
+  width:100%;
+}
+
+.voteButtons{
+  padding-left: 5px;
+}

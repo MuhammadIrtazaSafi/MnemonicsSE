@@ -36,6 +36,13 @@ routingModule.config(function($stateProvider,$urlRouterProvider) {
     controller:'settingsController'
   });
 
+  $stateProvider.state('testScreen',{
+    url:'/testScreen',
+    templateUrl:'templates/testScreen.html',
+    controller:'testScreenController'
+  });
+
+
   $urlRouterProvider.otherwise('/login');
 
 });
