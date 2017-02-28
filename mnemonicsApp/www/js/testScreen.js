@@ -28,12 +28,16 @@
 
     };
 
-    $scope.swipeLeft = function(){
+    $scope.mnemonicLeft = function(){
 
     };
 
-    $scope.swipeRight = function(){
+    $scope.mnemonicRight = function(){
 
+    };
+
+    $scope.suggestMnemonic = function(){
+      $state.go('enterMnemonicForm');
     };
 
   });

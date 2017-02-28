@@ -42,6 +42,11 @@ routingModule.config(function($stateProvider,$urlRouterProvider) {
     controller:'testScreenController'
   });
 
+  $stateProvider.state('enterMnemonicForm',{
+    url:'/enterMnemonicForm',
+    templateUrl:'templates/enterMnemonicForm.html',
+    controller:'enterMnemonicFormController'
+  });
 
   $urlRouterProvider.otherwise('/login');
 

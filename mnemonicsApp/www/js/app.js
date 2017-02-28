@@ -10,6 +10,7 @@ angular.module('mnemonics', ['ionic',
   'mnemonics.createAccount',
   'mnemonics.mainDeckPage',
   'mnemonics.testScreen',
+  'mnemonics.enterMnemonicForm',
   'mnemonics.settings'])
 
 .run(function($ionicPlatform) {
