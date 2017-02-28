@@ -11,10 +11,11 @@
 
     $scope.goBack = function(){
       $state.go('testScreen');
-    }
+    };
 
     $scope.submit = function(){
       //handle text entry
+      console.log('Submit Pressed')
       $state.go('testScreen');
     };
 

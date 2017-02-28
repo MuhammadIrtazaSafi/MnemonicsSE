@@ -13,26 +13,32 @@
     }
 
     $scope.knowWord = function(){
+      console.log('know word pressed');
 
     };
 
     $scope.dontKnowWord = function(){
+      console.log('dont know word pressed');
 
     };
 
     $scope.voteUp = function(){
+      console.log('vote up pressed');
 
     };
 
     $scope.voteDown = function(){
+      console.log('vote down pressed');
 
     };
 
     $scope.mnemonicLeft = function(){
+      console.log('mnemonic left pressed');
 
     };
 
     $scope.mnemonicRight = function(){
+      console.log('mnemonic right pressed');
 
     };
 
