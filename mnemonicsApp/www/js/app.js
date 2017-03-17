@@ -11,7 +11,8 @@ angular.module('mnemonics', ['ionic',
   'mnemonics.mainDeckPage',
   'mnemonics.testScreen',
   'mnemonics.enterMnemonicForm',
-  'mnemonics.settings'])
+  'mnemonics.settings',
+  'mnemonics.comService'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

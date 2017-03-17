@@ -3,10 +3,10 @@
  */
 (function(){
 
-  var settings = angular.module('mnemonics.testScreen', ['ngCordova']);
+  var settings = angular.module('mnemonics.testScreen', ['ngCordova','mnemonics.comService']);
 
 
-  settings.controller('testScreenController', function ($scope, $http,$state) {
+  settings.controller('testScreenController', function ($scope, $http, $state, comService) {
 
     $scope.goBack = function(){
       $state.go('mainDeckPage');
@@ -14,11 +14,13 @@
 
     $scope.knowWord = function(){
       console.log('know word pressed');
+      $scope.currentWord = comService.getRandomWord();
 
     };
 
     $scope.dontKnowWord = function(){
       console.log('dont know word pressed');
+      $scope.currentWord = comService.getRandomWord();
 
     };
 
@@ -45,6 +47,9 @@
     $scope.suggestMnemonic = function(){
       $state.go('enterMnemonicForm');
     };
+
+    $scope.currentWord = comService.getRandomWord();
+
 
   });
 })();
