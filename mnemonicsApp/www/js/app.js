@@ -12,7 +12,8 @@ angular.module('mnemonics', ['ionic',
   'mnemonics.testScreen',
   'mnemonics.enterMnemonicForm',
   'mnemonics.settings',
-  'mnemonics.comService'])
+  'mnemonics.comService',
+  'ngAnimate'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

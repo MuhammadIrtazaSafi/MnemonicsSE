@@ -3,7 +3,7 @@
  */
 (function(){
 
-  var settings = angular.module('mnemonics.testScreen', ['ngCordova','mnemonics.comService']);
+  var settings = angular.module('mnemonics.testScreen', ['ngCordova','mnemonics.comService','ngAnimate']);
 
 
   settings.controller('testScreenController', function ($scope, $http, $state, comService) {
