@@ -8,23 +8,29 @@
       <div class="padding text-center">
         <h3>{{currentWord.word}}</h3>
       </div>
-      <div class="item item-text-wrap">
+      <div class="item item-text-wrap definitionArea" ng-show="showDefinition">
         <h3>Definition:</h3>
         {{currentWord.def}}
       </div>
     </div>
 
-    <div class="card">
-      <div class="item item-text-wrap">
+    <button class="button button-full button-light" ng-show="!showDefinition" ng-click="handleShowDefinition()">Show Definition</button>
+
+
+    <div class="card mnemonicCard">
+      <div class="item item-text-wrap" ng-show="showMnemonic && showDefinition">
        This is the mnemonic for the word, typically it should be less than 255 characters
       </div>
 
-      <div class="item item-divider">
+      <div class="item item-divider" ng-show="showMnemonic && showDefinition">
           <a class="button button-small button-icon ion-chevron-left" ng-click="mnemonicLeft()" style="color: #0c60ee; font-size: x-small;  padding-top: 0px; padding-bottom: 0px; float: left; min-height: 10px"></a>
           <a class="button button-small button-icon ion-chevron-right" ng-click="mnemonicRight()" style="color: #0c60ee;font-size: x-small;  padding-top: 0px; padding-bottom: 0px; float: right; min-height: 10px"></a>
       </div>
 
   </div>
+
+    <button class="button button-full button-light" ng-show="showDefinition && !showMnemonic" ng-click="handleShowMnemonic()">Show Mnemonic</button>
+
 
 
 

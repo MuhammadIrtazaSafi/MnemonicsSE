@@ -14,12 +14,14 @@
 
     $scope.knowWord = function(){
       console.log('know word pressed');
+      $scope.hideHints();
       $scope.currentWord = comService.getRandomWord();
 
     };
 
     $scope.dontKnowWord = function(){
       console.log('dont know word pressed');
+      $scope.hideHints();
       $scope.currentWord = comService.getRandomWord();
 
     };
@@ -47,6 +49,20 @@
     $scope.suggestMnemonic = function(){
       $state.go('enterMnemonicForm');
     };
+
+    $scope.handleShowDefinition = function(){
+      $scope.showDefinition = true;
+    };
+
+    $scope.handleShowMnemonic = function(){
+      $scope.showMnemonic = true;
+    };
+
+    $scope.hideHints = function(){
+      $scope.showDefinition=false;
+      $scope.showMnemonic=false;
+    };
+
 
     $scope.currentWord = comService.getRandomWord();
 
