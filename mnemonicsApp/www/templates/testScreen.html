@@ -16,10 +16,9 @@
 
     <button class="button button-full button-light" ng-show="!showDefinition" ng-click="handleShowDefinition()">Show Definition</button>
 
-
     <div class="card mnemonicCard">
       <div class="item item-text-wrap" ng-show="showMnemonic && showDefinition">
-       This is the mnemonic for the word, typically it should be less than 255 characters
+       {{currentMnemonic.mnemonic}}
       </div>
 
       <div class="item item-divider" ng-show="showMnemonic && showDefinition">

@@ -10,40 +10,41 @@
 
     $scope.goBack = function(){
       $state.go('mainDeckPage');
-    }
+    };
 
     $scope.knowWord = function(){
-      console.log('know word pressed');
+      //console.log('know word pressed');
       $scope.hideHints();
       $scope.currentWord = comService.getRandomWord();
-
+      $scope.setFirstMnemonic();
     };
 
     $scope.dontKnowWord = function(){
-      console.log('dont know word pressed');
+      //console.log('dont know word pressed');
       $scope.hideHints();
       $scope.currentWord = comService.getRandomWord();
+      $scope.setFirstMnemonic();
 
     };
 
     $scope.voteUp = function(){
-      console.log('vote up pressed');
+      //console.log('vote up pressed');
 
     };
 
     $scope.voteDown = function(){
-      console.log('vote down pressed');
+      //console.log('vote down pressed');
 
     };
 
     $scope.mnemonicLeft = function(){
-      console.log('mnemonic left pressed');
-
+      //console.log('mnemonic left pressed');
+      $scope.setPrevMnemonic();
     };
 
     $scope.mnemonicRight = function(){
-      console.log('mnemonic right pressed');
-
+      //console.log('mnemonic right pressed');
+      $scope.setNextMnemonic();
     };
 
     $scope.suggestMnemonic = function(){
@@ -63,8 +64,21 @@
       $scope.showMnemonic=false;
     };
 
+    $scope.setFirstMnemonic = function(){
+      $scope.currentMnemonic = comService.getFirstMnemonic($scope.currentWord.word_id);
+      //console.log("first mnemonic: "+$scope.currentMnemonic);
+    };
+
+    $scope.setNextMnemonic = function(){
+      $scope.currentMnemonic = comService.getNextMnemonic($scope.currentWord.word_id);
+    };
+
+    $scope.setPrevMnemonic = function(){
+      $scope.currentMnemonic = comService.getPrevMnemonic($scope.currentWord.word_id);
+    };
 
     $scope.currentWord = comService.getRandomWord();
+    $scope.currentMnemonic = comService.getMnemonic($scope.currentWord.word_id,$scope.mnemonicIndex);
 
 
   });
