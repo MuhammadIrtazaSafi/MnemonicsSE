@@ -46,17 +46,17 @@
     ["looks funny","wide at bottom and skinny at top","horrible texture"],
     ["on top"],
     ["Multiple layers","used in most dishes"],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
+    ["Rich dudes","rich dude wannabees"],
+    ["makes good bikes","Japanese company that makes a lot of stuff"],
+    ["America's Hat","Free health care", "no Trump land"],
+    ["America's Beard","Build the wall"],
+    ["Programmers fav food","pizza goo stuff in fake pastery","guaranteed to give you cancer"],
+    ["Probably the best pizza joint in Orlando","F Pizza Hut","the wings kinda suck"],
+    ["Conichiwa"],
+    ["A tool to enslave you in debt for life","make a developer's salary and this won't be a big deal","Baby boomers ruined it"],
+    ["Expensive lawn that already is grown","gotta water it nonstop"],
+    ["Probably the only food I'll eat when I'm old and dying","Buffalo, Honey garlic, BBQ","bone in or out"],
+    ["America's passtime","boring as F","Cubs are current champs (world series)"],
     []
   ];
 
@@ -148,7 +148,15 @@
     };
 
     factoryObj.sendNewMnemonic = function(newMnemonicText){
-      console.log('New mnemonic received of '+newMnemonicText);
+      console.log('New mnemonic received of '+newMnemonicText+" for word id:"+ currentWordID);
+    };
+
+    factoryObj.upVoteMnemonic = function(upVotedMnemonic){
+      console.log('upvote of '+upVotedMnemonic.mnemonic+" for word id:"+ currentWordID);
+    };
+
+    factoryObj.downVoteMnemonic = function(downVotedMnemonic){
+      console.log('downvote of '+downVotedMnemonic.mnemonic+" for word id:"+ currentWordID);
     };
 
 

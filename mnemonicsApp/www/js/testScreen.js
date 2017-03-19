@@ -29,12 +29,13 @@
 
     $scope.voteUp = function(){
       //console.log('vote up pressed');
+      comService.upVoteMnemonic($scope.currentMnemonic);
 
     };
 
     $scope.voteDown = function(){
       //console.log('vote down pressed');
-
+      comService.downVoteMnemonic($scope.currentMnemonic);
     };
 
     $scope.mnemonicLeft = function(){

@@ -38,8 +38,8 @@
 
   <div class="buttonMenu">
     <div class="voteButtons">
-      <button class="button icon ion-thumbsdown" ng-click="voteDown()"></button>
-      <button class="button icon ion-thumbsup" ng-click="voteUp()"></button>
+      <button class="button icon ion-thumbsdown" ng-click="voteDown()" ng-show="showMnemonic && showDefinition"></button>
+      <button class="button icon ion-thumbsup" ng-click="voteUp()" ng-show="showMnemonic && showDefinition"></button>
     </div>
 
     <div class="button-bar">
