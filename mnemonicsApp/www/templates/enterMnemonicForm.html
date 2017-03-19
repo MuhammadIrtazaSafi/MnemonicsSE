@@ -7,9 +7,9 @@
 
     <div class="item item-input-inset">
       <label class="item item-input-wrapper">
-        <input type="text" placeholder="Suggestion">
+        <input ng-model="newMnemonicText" type="text" placeholder="Suggestion">
       </label>
-      <button class="button button-large" ng-click="submit()">Submit</button>
+      <button class="button button-large" ng-click="submit(newMnemonicText)">Submit</button>
     </div>
   </ion-content>
 

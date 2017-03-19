@@ -48,6 +48,7 @@
     };
 
     $scope.suggestMnemonic = function(){
+      $state.currentWordId=$scope.word_id;
       $state.go('enterMnemonicForm');
     };
 

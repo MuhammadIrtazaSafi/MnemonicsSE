@@ -78,7 +78,9 @@
 
 
 
-var mnemonicIndex=0;
+  var mnemonicIndex=0;
+  var currentWordID=0;
+
 
 
 
@@ -110,7 +112,9 @@ var mnemonicIndex=0;
 
     factoryObj.getRandomWord = function(){
       var randomNum=factoryObj.generateRandomNumber(1,wordArray.length);
-      return wordArray[randomNum];
+      var word = wordArray[randomNum];
+      currentWordID = word.word_id;
+      return word;
     };
 
     factoryObj.getMnemonic = function(word_id,index){
@@ -133,6 +137,18 @@ var mnemonicIndex=0;
       if(mnWordArray[word_id].mnemonics[mnemonicIndex-1])
         mnemonicIndex--;
       return factoryObj.getMnemonic(word_id,mnemonicIndex);
+    };
+
+    factoryObj.setCurrentWordID = function(word_id){
+      currentWordID=word_id;
+    };
+
+    factoryObj.getCurrentWordID = function(){
+      return currentWordID;
+    };
+
+    factoryObj.sendNewMnemonic = function(newMnemonicText){
+      console.log('New mnemonic received of '+newMnemonicText);
     };
 
 
