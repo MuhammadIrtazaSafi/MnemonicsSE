@@ -26,6 +26,7 @@ var word_routes = require('./routes/words.js');
 //Example endpoint. 
 app.get('/test', user_routes.test);
 app.post('/registerUser', user_routes.registerUser);
+app.post('/login', user_routes.login);
 
 var port = 8000;
 app.listen(port);

@@ -29,6 +29,25 @@ module.exports = {
         })
       });
     });
+  },
+  login : function(req, res){
+    var user = {
+      username : req.body.username,
+      password : req.body.password
+    }
+    var q = "SELECT * FROM users WHERE username ='" +user.username +"';";
+    var promise = db.executeQuery(q);
+    promise.then(function(rows){
+      user = rows['rows'][0];
+      salt = user.salt;
+      hash = user.hash;
+      console.log(salt + " " + hash);
+      //check user hash/salt and send user session to frontend
+    })
+    .catch(function(err){
+      console.log(err);
+      res.status(400).end();
+    })
   }
 }
 
