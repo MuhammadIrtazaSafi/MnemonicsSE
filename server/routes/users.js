@@ -15,7 +15,6 @@ module.exports = {
     bcrypt.genSalt(10, function(err, salt) {
       bcrypt.hash(user.password, salt, function(err, hash) {
         var q = "INSERT INTO users (f_name, l_name, username, hash, salt) VALUES ('"+user.f_name +"'," + "'"+user.l_name +"'," + "'"+user.username +"'," + "'"+hash +"'," + "'"+salt +"');";
-        console.log(q);
         var promise = db.executeQuery(q);
         promise.then(function(rows){
           
@@ -45,7 +44,6 @@ module.exports = {
       bcrypt.hash(login_info.password, salt, function(err, ret_hash){
         if(ret_hash == hash){
           req.session.regenerate(function(){
-            console.log(user.username + " " + user.f_name)
             req.session.user = {username : user.username, f_name : user.f_name, l_name : user.l_name};
             res.json({'cookie' : {'sid' : req.session.id}}).status(200).end();  
           });

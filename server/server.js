@@ -27,17 +27,21 @@ var word_routes = require('./routes/words.js');
 
 
 function restrict(req, res, next) {
-  console.log(req.cookies);
-  if (req.session.user && req.cookies["connect.sid"] == req.body.sid) {
+  var cook = req.cookies["connect.sid"];
+  cook = cook.substring(cook.indexOf(':')+1, cook.indexOf('.'));
+  if (req.session.user && cook == req.session.id) {
     next();
-  } 
+  }
+  else{
+    res.status(400).end();
+  }
 }
 
 
 app.get('/test', restrict, user_routes.test);
 app.post('/registerUser', user_routes.registerUser);
 app.post('/login', user_routes.login);
-app.post('/logout', user_routes.logout);
+app.post('/logout', restrict, user_routes.logout);
 
 var port = 8000;
 app.listen(port);
