@@ -23,6 +23,17 @@ var user_routes = require('./routes/users.js');
 var vote_routes = require('./routes/votes.js');
 var word_routes = require('./routes/words.js');
 
+function restrict(req, res, next) {
+  var cook = req.cookies["connect.sid"];
+  cook = cook.substring(cook.indexOf(':')+1, cook.indexOf('.'));
+  if (req.session.user && cook == req.session.id) {
+    next();
+  }
+  else{
+    res.status(400).end();
+  }
+}
+
 //Example endpoint. 
 app.get('/test', user_routes.test);
 app.post('/registerUser', user_routes.registerUser);
