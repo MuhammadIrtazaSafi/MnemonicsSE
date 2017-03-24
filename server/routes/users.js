@@ -15,11 +15,14 @@ module.exports = {
     bcrypt.genSalt(10, function(err, salt) {
       bcrypt.hash(user.password, salt, function(err, hash) {
         var q = "INSERT INTO users (f_name, l_name, username, hash, salt) VALUES ('"+user.f_name +"'," + "'"+user.l_name +"'," + "'"+user.username +"'," + "'"+hash +"'," + "'"+salt +"');";
+        console.log(q);
         var promise = db.executeQuery(q);
         promise.then(function(rows){
           
-          req.session.regenerate(function(){
+          req.session.regenerate(function(err){
+            console.log("ERROR " + err);
             req.session.user = user;
+            console.log(req.sessionID);
             res.status(200).end();
           });
           
@@ -31,17 +34,29 @@ module.exports = {
     });
   },
   login : function(req, res){
-    var user = {
+    var login_info = {
       username : req.body.username,
       password : req.body.password
     }
-    var q = "SELECT * FROM users WHERE username ='" +user.username +"';";
+    var q = "SELECT * FROM users WHERE username ='" +login_info.username +"';";
     var promise = db.executeQuery(q);
     promise.then(function(rows){
       user = rows['rows'][0];
+      console.log(user);
       salt = user.salt;
       hash = user.hash;
-      console.log(salt + " " + hash);
+      
+      bcrypt.hash(login_info.password, salt, function(err, ret_hash){
+        if(ret_hash == hash){
+          console.log("MATCH " + user);
+          req.session.user = user;
+          console.log(req.sessionID);
+          req.session.regenerate(function(err){
+            console.log("ERROR " + err);
+            res.json({'sid' : req.session.id}).status(200).end();
+          });
+        }
+      })
       //check user hash/salt and send user session to frontend
     })
     .catch(function(err){

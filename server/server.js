@@ -14,8 +14,8 @@ app.use(session({
   pg : db.pg,
   secret: "this is our cookie secret.",
   resave: false,
-  saveUninitialized : false,
-  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days 
+  saveUninitialized : true,
+  cookie: { maxAge: 30 * 24 * 60 * 60 * 10000 } 
 }));
 module.exports = app;
 
