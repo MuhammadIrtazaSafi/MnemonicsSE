@@ -11,16 +11,13 @@ try:
         reader = csv.reader(file)
         for row in reader: 
            s1 = row[0]
-           s2 = row[1]
+           s2 = row[1].strip()
            sql = "INSERT INTO words (word, def) VALUES (%s, %s)"
            sql = sql
            print counter
            counter+=1
            cur.execute(sql,(s1, s2))
-    
     print "done" 
-    out = cur.execute('SELECT * from words') 
-    print(out)
  
 except:
     print "I am unable to connect to the database."
