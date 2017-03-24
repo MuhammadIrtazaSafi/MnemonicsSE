@@ -3,7 +3,7 @@ var bcrypt = require('bcryptjs');
 
 module.exports = {
   test : function(req, res){
-    res.status(200).end();
+    res.send("RESTRICTED, you're in");
   },
   registerUser : function(req, res){
     var user = {
@@ -19,13 +19,10 @@ module.exports = {
         var promise = db.executeQuery(q);
         promise.then(function(rows){
           
-          req.session.regenerate(function(err){
-            console.log("ERROR " + err);
-            req.session.user = user;
-            console.log(req.sessionID);
-            res.status(200).end();
+          req.session.regenerate(function(){
+            req.session.user = {username : user.username, f_name : user.f_name, l_name : user.l_name};
+            res.status(200).end();  
           });
-          
         })
         .catch(function(err){
           res.status(400).end();
@@ -42,19 +39,19 @@ module.exports = {
     var promise = db.executeQuery(q);
     promise.then(function(rows){
       user = rows['rows'][0];
-      console.log(user);
       salt = user.salt;
       hash = user.hash;
       
       bcrypt.hash(login_info.password, salt, function(err, ret_hash){
         if(ret_hash == hash){
-          console.log("MATCH " + user);
-          req.session.user = user;
-          console.log(req.sessionID);
-          req.session.regenerate(function(err){
-            console.log("ERROR " + err);
-            res.json({'sid' : req.session.id}).status(200).end();
+          req.session.regenerate(function(){
+            console.log(user.username + " " + user.f_name)
+            req.session.user = {username : user.username, f_name : user.f_name, l_name : user.l_name};
+            res.json({'cookie' : {'sid' : req.session.id}}).status(200).end();  
           });
+        }
+        else{
+          res.status(400).end();
         }
       })
       //check user hash/salt and send user session to frontend
@@ -63,6 +60,13 @@ module.exports = {
       console.log(err);
       res.status(400).end();
     })
+  },
+  logout: function(req, res){
+    req.session.destroy(function(err){
+      if(!err){
+        res.status(200).end();
+      }
+    });
   }
 }
 
