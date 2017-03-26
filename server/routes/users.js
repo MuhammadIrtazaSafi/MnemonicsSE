@@ -20,10 +20,12 @@ module.exports = {
       
       req.session.regenerate(function(){
       req.session.user = {username : user.username, f_name : user.f_name, l_name : user.l_name};
+      console.log("Successfully registered user " + user.username);
       res.status(200).end();  
       });
     })
     .catch(function(err){
+      console.log("Error registering user " + user.username);
       res.status(400).end();
     })
     });
@@ -45,6 +47,7 @@ module.exports = {
     if(ret_hash == hash){
       req.session.regenerate(function(){
       req.session.user = {username : user.username, f_name : user.f_name, l_name : user.l_name};
+      console.log("Successfully logged in " + req.session.user.username);
       res.json({'cookie' : {'sid' : req.session.id}}).status(200).end();  
       });
     }
@@ -54,17 +57,11 @@ module.exports = {
     })
     //check user hash/salt and send user session to frontend
   })
-  .catch(function(err){
-    console.log(err);
-    res.status(400).end();
-  })
-  },
-  logout: function(req, res){
-  req.session.destroy(function(err){
-    if(!err){
-    res.status(200).end();
-    }
-  });
+    .catch(function(err){
+      console.log(err);
+      console.log("Error logging in " + req.session.user.username);
+      res.status(400).end();
+    })
   }
 }
 

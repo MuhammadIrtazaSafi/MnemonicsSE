@@ -1,10 +1,12 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var sessionStore = require('connect-pg-simple');
 var app = express();
 var db = require('./database/db.js');
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -34,12 +36,22 @@ function restrict(req, res, next) {
   }
 }
 
+function logout(req, res) {
+  req.session.destroy(function(err){
+    if(!err){
+    res.status(200).end();
+    }
+  });
+}
+
 //Example endpoint. 
-app.get('/test', user_routes.test);
+app.get('/test', restrict, user_routes.test);
 app.post('/registerUser', user_routes.registerUser);
 app.post('/login', user_routes.login);
-app.get('/words', word_routes.words);
-app.post('/mnemonic', word_routes.addMnemonic);
+
+app.get('/words', restrict, word_routes.words);
+app.post('/mnemonic', restrict, word_routes.addMnemonic);
+app.post('/logout', logout);
 
 var port = 8000;
 app.listen(port);
