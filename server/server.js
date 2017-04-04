@@ -48,19 +48,13 @@ function logout(req, res) {
 app.get('/test', restrict, user_routes.test);
 app.post('/registerUser', user_routes.registerUser);
 app.post('/login', user_routes.login);
-<<<<<<< HEAD
-app.get('/words', word_routes.words);
-app.post('/mnemonic', word_routes.addMnemonic);
-app.get('/mnemonic', word_routes.getMnemonic);
-app.post('/upvote',vote_routes.addVote);
-app.post('/downvote',vote_routes.subtractVote);
-=======
-
 app.get('/words', restrict, word_routes.words);
 app.post('/mnemonic', restrict, word_routes.addMnemonic);
+app.get('/mnemonic', restrict, word_routes.getMnemonic);
+app.post('/upvote', restrict, vote_routes.addVote);
+app.post('/downvote', restrict, vote_routes.subtractVote);
 app.post('/logout', logout);
 
->>>>>>> bbf3526e9f87934247c4de01fcde8e0a9de279e3
 var port = 8000;
 app.listen(port);
 console.log("Mnemonics server is listening on port: " + port);
