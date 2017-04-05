@@ -50,9 +50,10 @@ app.post('/registerUser', user_routes.registerUser);
 app.post('/login', user_routes.login);
 app.get('/words', restrict, word_routes.words);
 app.post('/mnemonic', restrict, word_routes.addMnemonic);
-app.get('/mnemonic', restrict, word_routes.getMnemonic);
+app.get('/userMnemonic', restrict, word_routes.getUserMnemonic);
 app.post('/upvote', restrict, vote_routes.addVote);
 app.post('/downvote', restrict, vote_routes.subtractVote);
+app.get('/locationMnemonics', restrict, word_routes.locationMnemonics);
 app.post('/logout', logout);
 
 var port = 8000;
