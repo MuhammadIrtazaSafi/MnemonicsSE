@@ -5,7 +5,7 @@ module.exports = {
     q = "SELECT * FROM words";
     var promise = db.executeQuery(q);
     promise.then(function(result){
-      res.json(result.rows);
+      res.json(result.rows).status(200).end();
     });
   },
   addMnemonic : function(req,res){
@@ -19,16 +19,27 @@ module.exports = {
       res.status(400).end();
     })
   },
-  getMnemonic : function(req,res){
-    console.log('test');
+  getUserMnemonic : function(req,res){
     q = "(SELECT user_id FROM users WHERE username ='"+req.session.user.username+"')";
     x = "SELECT * FROM mnemonics WHERE user_id = "+q+" AND word_id = '"+req.query.word_id+"'";
-    console.log(x);
     var promise = db.executeQuery(x);
     promise.then(function(result){  
       res.json(result.rows).end();
     })
     .catch(function(err){
+      res.status(400).end();
+    })
+   },
+   locationMnemonics : function(req, res){
+    user_lat = parseFloat(req.query.lat)
+    user_long = parseFloat(req.query.long)
+    q = 'select w.word_id, w.word, w.def, m.mn_id, m.mnemonic FROM words w, mnemonics m WHERE (m.lat BETWEEN ' + (user_lat - .2) + ' and ' + (user_lat + .2) + ') AND (m.long BETWEEN ' +(user_long - .2) + ' and ' + (user_long + .2) + ') AND m.word_id = w.word_id;' 
+    var promise = db.executeQuery(q);
+    promise.then(function(result){
+      res.json(result.rows).status(200).end();  
+    })
+    .catch(function(err){
+      console.log(err);
       res.status(400).end();
     })
    }
