@@ -15,6 +15,27 @@
 
     $scope.goBack = function(){
       $state.go('login');
+    },
+
+    $scope.createAccount = function(){
+      console.log("create acct pressed");
+      $http.post("http://localhost:8000/registerUser", {
+        username: 'greg',
+        password: '123'
+
+
+      })
+        .success(function(response){
+          callback(response,false)
+          console.log("successful");
+          console.log(response);
+        })
+        .error(function(error){
+          callback(false,true)
+        });
+
+
+
     }
   });
 }());
