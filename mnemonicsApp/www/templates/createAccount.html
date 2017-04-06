@@ -1,0 +1,30 @@
+<ion-view cache-view="false">
+  <ion-content>
+    <div class="row">
+      <div class="col col-100">
+        <div class="padding text-center">
+          <img width="50%" height="50%"
+               src="img/mainIcon.png"/>
+        </div>
+      </div>
+    </div>
+    <form name="myForm" novalidate>
+      <div class="list card">
+        <label class="item item-input">
+          <input type="email" placeholder="Email" name="uemail" ng-model="formData.email">
+        </label>
+
+        <label class="item item-input">
+          <input type="password" name="password" placeholder="Password (at least five characters)" ng-model="formData.password" >
+        </label>
+      </div>
+      <div class="padding">
+        <a ng-click="createAccount()"
+           class="button button-block icon-right ion-chevron-right button-calm">Create Account</a>
+        <button class="button button-block ion-chevron-left icon-left button-assertive"
+                ng-click="goBack()">Return to login screen</button>
+
+      </div>
+    </form>
+  </ion-content>
+</ion-view>

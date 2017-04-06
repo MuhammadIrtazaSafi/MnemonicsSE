@@ -1,0 +1,44 @@
+.buttonMenu{
+  display: list-item;
+  position: absolute;
+  bottom:5px; left:0;
+  width:100%;
+}
+
+.voteButtons{
+  padding-left: 5px;
+  margin-top:0px;
+  margin-bottom:0px;
+  font-size: xx-small;
+}
+
+.button.icon.ion-thumbsdown{
+  color: #ff3b30;
+  min-height: 10px;
+  background-color:transparent;
+}
+
+.button.icon.ion-thumbsup{
+  color: #0c60ee;
+  min-height: 10px;
+  background-color:transparent;
+}
+
+.button.button-full{
+  margin-top:1px;
+  margin-bottom:1px;
+}
+
+
+.card{
+  transition:0.5s linear all;
+  opacity:1;
+}
+
+.mnemonicCard{
+  opacity: 1;
+}
+
+.definitionArea{
+  opacity: 1;
+}
