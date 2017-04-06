@@ -33,7 +33,7 @@ module.exports = {
    locationMnemonics : function(req, res){
     user_lat = parseFloat(req.query.lat)
     user_long = parseFloat(req.query.long)
-    q = 'select w.word_id, w.word, w.def, m.mn_id, m.mnemonic FROM words w, mnemonics m WHERE (m.lat BETWEEN ' + (user_lat - .2) + ' and ' + (user_lat + .2) + ') AND (m.long BETWEEN ' +(user_long - .2) + ' and ' + (user_long + .2) + ') AND m.word_id = w.word_id;' 
+    q = 'select w.word_id, w.word, w.def, m.mn_id, m.rating, m.mnemonic FROM words w, mnemonics m WHERE (m.lat BETWEEN ' + (user_lat - .2) + ' and ' + (user_lat + .2) + ') AND (m.long BETWEEN ' +(user_long - .2) + ' and ' + (user_long + .2) + ') AND m.word_id = w.word_id ORDER BY m.rating;' 
     var promise = db.executeQuery(q);
     promise.then(function(result){
       res.json(result.rows).status(200).end();  
