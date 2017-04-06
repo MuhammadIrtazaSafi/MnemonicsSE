@@ -6,7 +6,6 @@
 (function(){
 
   var comService = angular.module('mnemonics.comService',[]);
-
   var wordArray =[
     {word_id:0, word:"Worm", def:"animal that lives underground"},
     {word_id:1, word:"Apple", def:"A tasty fruit"},
@@ -28,15 +27,10 @@
     {word_id:17, word:"Chicken Wings", def:"A deep fried food that tastes delicious"},
     {word_id:18, word:"Baseball", def:"A sport played with a bat, glove, and ball"}
   ];
-
-
   var mnArrayObject =  function(){
     return {mnemonics:[]};
   };
-
   var mnWordArray = [new mnArrayObject()];
-
-
   var manualEntry = [
     ["Slimy", "Catch Fish"],
     ["It can be red, green, whatever", "fell on Newton's head", "Sometimes has worms in it", "pretty good in the morning"],
@@ -59,7 +53,6 @@
     ["America's passtime","boring as F","Cubs are current champs (world series)"],
     []
   ];
-
   for(var i=0;i<wordArray.length;i++) {
     if (!mnWordArray[i]) {
       mnWordArray.push(new mnArrayObject());
@@ -75,9 +68,6 @@
           rating:0})
     }
   }
-
-
-
   var mnemonicIndex=0;
   var currentWordID=0;
 
@@ -87,24 +77,25 @@
   comService.factory('comService',function($rootScope,$http){
 
     var factoryObj = {};
-
-
-    factoryObj.login = function(data){
-
-      $http.get("http://localhost:3000/login",{params:data})
+    factoryObj.login = function(data,callback){
+      console.log("logging in " + data.userName + " " + data.password);
+      $http.get("http://localhost:8000/login",{params:data})
         .success(function(response){
-
-
-
+          callback(response,false)
         })
         .error(function(error){
-
-
-
+          callback(false,true)
         });
+
+    };
+
+    factoryObj.logout = function(data,callback){
 
 
     };
+
+
+
 
     factoryObj.generateRandomNumber = function(min,max){
       return Math.floor(((Math.random() * (max-min))+min));
