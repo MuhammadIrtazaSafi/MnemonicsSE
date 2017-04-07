@@ -34,6 +34,9 @@ module.exports = {
   });
   },
   login : function(req, res){
+    res.write('ok');
+    res.end();
+    return;
   var login_info = {
     username : req.body.username,
     password : req.body.password
