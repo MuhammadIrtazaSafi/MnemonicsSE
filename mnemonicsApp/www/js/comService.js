@@ -77,6 +77,9 @@
   comService.factory('comService',function($rootScope,$http){
     var factoryObj = {};
 
+    // REST REQUESTS TO THE SERVER 
+
+
     factoryObj.login = function(data,callback){
       console.log("logging in " + data.username + " " + data.password);
       $http.post("http://localhost:8000/login",{username:data.username,password:data.password})
@@ -145,6 +148,8 @@
         });
     };
 
+
+    /// HAVEN'T TOUCHED THESE METHODS. PLEASE CHANGE AS APPROPRIATE ///
 
     factoryObj.generateRandomNumber = function(min,max){
       return Math.floor(((Math.random() * (max-min))+min));
