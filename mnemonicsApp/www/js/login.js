@@ -10,7 +10,7 @@
 
   login.controller('loginController', function ($scope, $http,$state,comService) {
 
-    $scope.data = {userName:'',password:''};
+    $scope.data = {username:'',password:''};
     $scope.login = function(){
 
       comService.login($scope.data,function(rez,err){

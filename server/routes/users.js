@@ -12,7 +12,9 @@ module.exports = {
     f_name : req.body.f_name,
     l_name : req.body.l_name,
     password : req.body.password
-  }
+  };
+
+  return;
 
   bcrypt.genSalt(10, function(err, salt) {
     bcrypt.hash(user.password, salt, function(err, hash) {
@@ -36,11 +38,12 @@ module.exports = {
   login : function(req, res){
     res.write('ok');
     res.end();
-    return;
   var login_info = {
     username : req.body.username,
     password : req.body.password
-  }
+  };
+  console.log(login_info);
+  return;
   var q = "SELECT * FROM users WHERE username ='" +login_info.username +"';";
   var promise = db.executeQuery(q);
   promise.then(function(rows){
@@ -59,7 +62,7 @@ module.exports = {
     else{
       res.status(400).end();
     }
-    })
+    });
     //check user hash/salt and send user session to frontend
   })
     .catch(function(err){

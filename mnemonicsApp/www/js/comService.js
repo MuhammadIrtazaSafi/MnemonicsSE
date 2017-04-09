@@ -75,12 +75,13 @@
 
 
   comService.factory('comService',function($rootScope,$http){
-
     var factoryObj = {};
+
     factoryObj.login = function(data,callback){
-      console.log("logging in " + data.userName + " " + data.password);
-      $http.get("http://localhost:8000/login",{params:data})
+      console.log("logging in " + data.username + " " + data.password);
+      $http.post("http://localhost:8000/login",{username:data.username,password:data.password})
         .success(function(response){
+          console.log(response);
           callback(response,false)
         })
         .error(function(error){
@@ -88,13 +89,61 @@
         });
 
     };
-
-    factoryObj.logout = function(data,callback){
-
-
+    factoryObj.registerUser = function(username,password,callback) {
+      $http.post("http://localhost:8000/registerUser", {username: username, password: password})
+        .success(function (response) {
+          callback(response, false);
+        })
+        .error(function (error) {
+          callback(false, true)
+        });
+    };
+    factoryObj.getWords = function(callback) {
+      $http.get("http://localhost:8000/words", {params:{}})
+        .success(function (response) {
+          callback(response, false);
+        })
+        .error(function (error) {
+          callback(false, true)
+        });
+    };
+    factoryObj.addMnemonic = function(data,callback) {
+      $http.post("http://localhost:8000/mnemonic", {params:data}) // to be posted
+        .success(function (response) {
+          callback(response, false);
+        })
+        .error(function (error) {
+          callback(false, true)
+        });
+    };
+    factoryObj.upVoteMnemonic = function(id, callback){
+      $http.post("http://localhost:8000/upvote",{id:id})
+        .success(function(response){
+          callback(response,false);
+        })
+        .error(function(error){
+          callback(false,error);
+        });
+    };
+    factoryObj.downVoteMnemonic = function(id, callback){
+      $http.post("http://localhost:8000/downvote",{id:id})
+        .success(function(response){
+          callback(response,false);
+        })
+        .error(function(error){
+          callback(false,error);
+        });
     };
 
-
+    factoryObj.logout = function(callback){
+      $http.post("http://localhost:8000/logout", {username: username, password: password})
+        .success(function (response) {
+          callback(response, false);
+        })
+        .error(function (error) {
+          callback(false, true)
+        });
+    };
 
 
     factoryObj.generateRandomNumber = function(min,max){
@@ -149,7 +198,6 @@
     factoryObj.downVoteMnemonic = function(downVotedMnemonic){
       console.log('downvote of '+downVotedMnemonic.mnemonic+" for word id:"+ currentWordID);
     };
-
 
     return factoryObj;
   })
