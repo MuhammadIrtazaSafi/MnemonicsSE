@@ -6,7 +6,7 @@
 (function(){
 
   var comService = angular.module('mnemonics.comService',[]);
-  var wordArray =[
+  var wordArray =[ //this is test data. Leave it in
     {word_id:0, word:"Worm", def:"animal that lives underground"},
     {word_id:1, word:"Apple", def:"A tasty fruit"},
     {word_id:2, word:"Carrot", def:"A vegetable"},
@@ -70,6 +70,7 @@
   }
   var mnemonicIndex=0;
   var currentWordID=0;
+  var respObj;
 
 
 
@@ -77,17 +78,19 @@
   comService.factory('comService',function($rootScope,$http){
     var factoryObj = {};
 
-    // REST REQUESTS TO THE SERVER 
+    // REST REQUESTS TO THE SERVER
 
 
     factoryObj.login = function(data,callback){
       console.log("logging in " + data.username + " " + data.password);
       $http.post("http://localhost:8000/login",{username:data.username,password:data.password})
         .success(function(response){
-          console.log(response);
-          callback(response,false)
+          console.log("successful login");
+          factoryObj.setSID(response);
+          callback(response,false);
         })
         .error(function(error){
+          console.log("error logging in...");
           callback(false,true)
         });
 
@@ -102,12 +105,14 @@
         });
     };
     factoryObj.getWords = function(callback) {
-      $http.get("http://localhost:8000/words", {params:{}})
+      $http.get("http://localhost:8000/words", {params:{sid:factoryObj.getSID()}})
         .success(function (response) {
           callback(response, false);
+          console.log(response);
         })
         .error(function (error) {
-          callback(false, true)
+          //callback(false, true)
+          console.log('error getting words');
         });
     };
     factoryObj.addMnemonic = function(data,callback) {
@@ -146,6 +151,15 @@
         .error(function (error) {
           callback(false, true)
         });
+    };
+
+    factoryObj.setSID = function(obj){
+      this.respObj=obj;
+      console.log('stored SID: '+factoryObj.getSID());
+    };
+
+    factoryObj.getSID = function(){
+      return this.respObj.cookie.sid;
     };
 
 

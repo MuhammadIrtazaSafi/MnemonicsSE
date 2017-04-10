@@ -7,6 +7,7 @@
 
 
   settings.controller('testScreenController', function ($scope, $http, $state, comService) {
+    comService.getWords();
 
     $scope.goBack = function(){
       $state.go('mainDeckPage');
