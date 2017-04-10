@@ -36,14 +36,14 @@ module.exports = {
   });
   },
   login : function(req, res){
-    res.write('ok');
-    res.end();
+    //res.write('ok');
+    //res.end();
   var login_info = {
     username : req.body.username,
     password : req.body.password
   };
   console.log(login_info);
-  return;
+  //return;
   var q = "SELECT * FROM users WHERE username ='" +login_info.username +"';";
   var promise = db.executeQuery(q);
   promise.then(function(rows){
@@ -53,13 +53,16 @@ module.exports = {
 
     bcrypt.hash(login_info.password, salt, function(err, ret_hash){
     if(ret_hash == hash){
-      req.session.regenerate(function(){
+        console.log('ret_has == hash');
+
+        req.session.regenerate(function(){
       req.session.user = {username : user.username, f_name : user.f_name, l_name : user.l_name};
       console.log("Successfully logged in " + req.session.user.username);
       res.json({'cookie' : {'sid' : req.session.id}}).status(200).end();
       });
     }
     else{
+      console.log('ret_has != hash');
       res.status(400).end();
     }
     });
