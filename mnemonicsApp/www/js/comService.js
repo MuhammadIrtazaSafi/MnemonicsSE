@@ -74,25 +74,26 @@
   }
   var mnemonicIndex=0;
   var currentWordID=0;
+  var username="";
   var respObj;
-  var data;
 
 
 
 
-  comService.factory('comService',function($rootScope,$http){
+  comService.factory('comService',function($rootScope,$http,$cordovaGeolocation){
     var factoryObj = {};
 
     // REST REQUESTS TO THE SERVER
 
 
     factoryObj.login = function(data,callback){
-      this.data=data;
+      username=data.username;
       console.log("logging in " + data.username + " " + data.password);
       $http.post("http://localhost:8000/login",{username:data.username,password:data.password})
         .success(function(response){
           console.log("successful login");
           factoryObj.setSID(response);
+          console.dir(response);
           callback(response,false);
         })
         .error(function(error){
@@ -123,14 +124,35 @@
         });
     };
     factoryObj.addMnemonic = function(data,callback) {
-      $http.post("http://localhost:8000/mnemonic", {params:data}) // to be posted
-        .success(function (response) {
-          callback(response, false);
-        })
-        .error(function (error) {
-          callback(false, true)
+      var lat,long;
+      var posOptions = {timeout: 10000, enableHighAccuracy: false};
+      $cordovaGeolocation
+        .getCurrentPosition(posOptions)
+        .then(function (position) {
+           lat  = position.coords.latitude;
+           long = position.coords.longitude;
+
+          console.log(lat);
+          console.log(long);
+          $http.post("http://localhost:8000/mnemonic", {word_id:currentWordID, mnemonic:data, lat:lat, long:long, username:username}) // to be posted     x = "INSERT INTO mnemonics (user_id, word_id, mnemonic, lat, long, rating) VALUES ("+q+",'"+req.body.word_id+"','"+ req.body.mnemonic+"','"+ req.body.lat+"','"+ req.body.long+"',0)";
+            .success(function (response) {
+              callback(response, false);
+            })
+            .error(function (error) {
+              callback(false, true)
+            });
+
+
+        }, function(err) {
+          // error
         });
+
+
+
     };
+
+
+
     factoryObj.upVoteMnemonic = function(id, callback){
       $http.post("http://localhost:8000/upvote",{id:id})
         .success(function(response){
@@ -216,17 +238,23 @@
       catch (e){console.log('error getting previous mnemonic');}
     };
 
-    factoryObj.setCurrentWordID = function(word_id){
-      currentWordID=word_id;
+    factoryObj.getLocalMnemonicSet = function(){
+      $http.get("http://localhost:8000/locationMnemonics",{params:{lat:28, long:-81}})
+        .success(function(response){
+          //callback(response,false);
+          console.log(response);
+        })
+        .error(function(error){
+          //callback(false,error);
+          console.log("error getting location mnemonics from server");
+        });
     };
 
-    factoryObj.getCurrentWordID = function(){
-      return currentWordID;
-    };
 
-    factoryObj.sendNewMnemonic = function(newMnemonicText){
-      console.log('New mnemonic received of '+newMnemonicText+" for word id:"+ currentWordID);
-    };
+
+
+
+
 
     factoryObj.upVoteMnemonic = function(upVotedMnemonic){
       try {

@@ -25,6 +25,7 @@
 
     };
 
+    /*
     var posOptions = {timeout: 10000, enableHighAccuracy: false};
     $cordovaGeolocation
       .getCurrentPosition(posOptions)
@@ -37,7 +38,7 @@
       }, function(err) {
         // error
       });
-
+*/
 
   });
 

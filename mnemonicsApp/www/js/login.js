@@ -20,6 +20,8 @@
           // save cookie in rez
           console.log('LOGIN SUCCESSFUL');
           comService.getWords();
+          comService.getLocalMnemonicSet();
+
 
           $state.go('mainDeckPage');
 

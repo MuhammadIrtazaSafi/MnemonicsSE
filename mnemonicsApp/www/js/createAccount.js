@@ -19,9 +19,9 @@
     $scope.createAccount = function(){
       comService.registerUser($scope.data.username,$scope.data.password, function(rez,err){
         if(err){
-          alert('Error registering user');
+          console.log('Error registering user');
         } else {
-          alert('Registered!, please login with your new account');
+          console.log('Registered!, please login with your new account');
           $state.go('login');
         }
       });

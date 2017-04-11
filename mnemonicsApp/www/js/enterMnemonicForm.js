@@ -18,7 +18,8 @@
       //console.log('Submit Pressed for word_id: '+ comService.getCurrentWordID());
 
       if(newMnemonicText)
-        comService.sendNewMnemonic(newMnemonicText);
+        comService.addMnemonic(newMnemonicText, function(){
+        });
       $state.go('testScreen');
     };
 
