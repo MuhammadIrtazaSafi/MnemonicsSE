@@ -7,7 +7,7 @@
 
 
   settings.controller('testScreenController', function ($scope, $http, $state, comService) {
-    comService.getWords();
+    //comService.getWords();
 
     $scope.goBack = function(){
       $state.go('mainDeckPage');
@@ -81,7 +81,11 @@
     };
 
     $scope.currentWord = comService.getRandomWord();
-    $scope.currentMnemonic = comService.getMnemonic($scope.currentWord.word_id,$scope.mnemonicIndex);
+
+    try {
+      $scope.currentMnemonic = comService.getMnemonic($scope.currentWord.word_id, $scope.mnemonicIndex);
+    }
+    catch (e){console.log("error getting mnemonic for word")}
 
 
   });

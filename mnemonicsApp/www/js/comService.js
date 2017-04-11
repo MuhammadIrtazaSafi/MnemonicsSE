@@ -6,7 +6,9 @@
 (function(){
 
   var comService = angular.module('mnemonics.comService',[]);
-  var wordArray =[ //this is test data. Leave it in
+  var wordArray=[];
+    /*=
+    [ //this is test data. Leave it in
     {word_id:0, word:"Worm", def:"animal that lives underground"},
     {word_id:1, word:"Apple", def:"A tasty fruit"},
     {word_id:2, word:"Carrot", def:"A vegetable"},
@@ -26,7 +28,9 @@
     {word_id:16, word:"Sod", def:"Strips of grass within a dirt root layer"},
     {word_id:17, word:"Chicken Wings", def:"A deep fried food that tastes delicious"},
     {word_id:18, word:"Baseball", def:"A sport played with a bat, glove, and ball"}
-  ];
+  ];*/
+
+
   var mnArrayObject =  function(){
     return {mnemonics:[]};
   };
@@ -107,8 +111,9 @@
     factoryObj.getWords = function(callback) {
       $http.get("http://localhost:8000/words", {params:{sid:factoryObj.getSID()}})
         .success(function (response) {
-          callback(response, false);
-          console.log(response);
+          //callback(response, false);
+          wordArray=response;
+          console.log('words received from server');
         })
         .error(function (error) {
           //callback(false, true)
@@ -170,15 +175,20 @@
     };
 
     factoryObj.getRandomWord = function(){
-      var randomNum=factoryObj.generateRandomNumber(1,wordArray.length);
-      var word = wordArray[randomNum];
-      currentWordID = word.word_id;
-      return word;
+      try {
+        var randomNum = factoryObj.generateRandomNumber(1, wordArray.length);
+        var word = wordArray[randomNum];
+        currentWordID = word.word_id;
+        return word;
+      }
+      catch(e){
+        console.log('word array not populated');
+      }
     };
 
     factoryObj.getMnemonic = function(word_id,index){
       //console.log("getMnemonic called with word ID: "+word_id+" and index: "+index);
-      return mnWordArray[word_id].mnemonics[index];
+      //return mnWordArray[word_id].mnemonics[index];
     };
 
     factoryObj.getFirstMnemonic = function(word_id){
@@ -187,15 +197,21 @@
     };
 
     factoryObj.getNextMnemonic = function(word_id){
-      if(mnWordArray[word_id].mnemonics[mnemonicIndex+1])
-        mnemonicIndex++;
-      return factoryObj.getMnemonic(word_id,mnemonicIndex);
+      try {
+        if (mnWordArray[word_id].mnemonics[mnemonicIndex + 1])
+          mnemonicIndex++;
+        return factoryObj.getMnemonic(word_id, mnemonicIndex);
+      }
+      catch (e){console.log('error getting next mnemonic');}
     };
 
     factoryObj.getPrevMnemonic = function(word_id){
-      if(mnWordArray[word_id].mnemonics[mnemonicIndex-1])
-        mnemonicIndex--;
-      return factoryObj.getMnemonic(word_id,mnemonicIndex);
+      try {
+        if (mnWordArray[word_id].mnemonics[mnemonicIndex - 1])
+          mnemonicIndex--;
+        return factoryObj.getMnemonic(word_id, mnemonicIndex);
+      }
+      catch (e){console.log('error getting previous mnemonic');}
     };
 
     factoryObj.setCurrentWordID = function(word_id){
@@ -211,11 +227,17 @@
     };
 
     factoryObj.upVoteMnemonic = function(upVotedMnemonic){
-      console.log('upvote of '+upVotedMnemonic.mnemonic+" for word id:"+ currentWordID);
+      try {
+        console.log('upvote of ' + upVotedMnemonic.mnemonic + " for word id:" + currentWordID);
+      }
+      catch (e){console.log('error upvoting mnemonic');}
     };
 
     factoryObj.downVoteMnemonic = function(downVotedMnemonic){
-      console.log('downvote of '+downVotedMnemonic.mnemonic+" for word id:"+ currentWordID);
+      try {
+        console.log('downvote of ' + downVotedMnemonic.mnemonic + " for word id:" + currentWordID);
+      }
+      catch (e){console.log('error downvoting mnemonic');}
     };
 
     return factoryObj;
