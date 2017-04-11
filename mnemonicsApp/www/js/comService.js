@@ -75,6 +75,7 @@
   var mnemonicIndex=0;
   var currentWordID=0;
   var respObj;
+  var data;
 
 
 
@@ -86,6 +87,7 @@
 
 
     factoryObj.login = function(data,callback){
+      this.data=data;
       console.log("logging in " + data.username + " " + data.password);
       $http.post("http://localhost:8000/login",{username:data.username,password:data.password})
         .success(function(response){
@@ -148,8 +150,8 @@
         });
     };
 
-    factoryObj.logout = function(callback){
-      $http.post("http://localhost:8000/logout", {username: username, password: password})
+    factoryObj.logout = function(data,callback){
+      $http.post("http://localhost:8000/logout", {username:this.data.username,password:this.data.password})
         .success(function (response) {
           callback(response, false);
         })

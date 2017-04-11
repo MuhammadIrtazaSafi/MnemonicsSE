@@ -11,11 +11,11 @@
   settings.controller('settingsController', function ($scope, $http,$state,comService) {
 
     $scope.logout = function(){
-      comService.logout(function(rez,err){
+      comService.logout($scope.data,function(rez,err){
         if(err){
           alert('Could not logout');
         } else {
-          alert('Logged out');
+          console.log('Logged out');
           $state.go('login');
         }
       })
