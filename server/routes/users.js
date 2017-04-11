@@ -14,7 +14,7 @@ module.exports = {
     password : req.body.password
   };
 
-  return;
+  //return;
 
   bcrypt.genSalt(10, function(err, salt) {
     bcrypt.hash(user.password, salt, function(err, hash) {

@@ -14,7 +14,7 @@ try:
            s2 = row[1].strip()
            sql = "INSERT INTO words (word, def) VALUES (%s, %s)"
            sql = sql
-           print counter
+           print (counter)
            counter+=1
            cur.execute(sql,(s1, s2))
     print "done" 
