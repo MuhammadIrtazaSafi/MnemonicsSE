@@ -6,7 +6,6 @@ module.exports = {
   res.send("RESTRICTED, you're in");
   },
   registerUser : function(req, res){
-    console.log(req.body);
   var user = {
     username : req.body.username,
     f_name : req.body.f_name,
@@ -21,7 +20,6 @@ module.exports = {
     var q = "INSERT INTO users (f_name, l_name, username, hash, salt) VALUES ('"+user.f_name +"'," + "'"+user.l_name +"'," + "'"+user.username +"'," + "'"+hash +"'," + "'"+salt +"');";
     var promise = db.executeQuery(q);
     promise.then(function(rows){
-
       req.session.regenerate(function(){
       req.session.user = {username : user.username, f_name : user.f_name, l_name : user.l_name};
       console.log("Successfully registered user " + user.username);
@@ -53,16 +51,13 @@ module.exports = {
 
     bcrypt.hash(login_info.password, salt, function(err, ret_hash){
     if(ret_hash == hash){
-        console.log('ret_has == hash');
-
-        req.session.regenerate(function(){
+      req.session.regenerate(function(){
       req.session.user = {username : user.username, f_name : user.f_name, l_name : user.l_name};
       console.log("Successfully logged in " + req.session.user.username);
       res.json({'cookie' : {'sid' : req.session.id}}).status(200).end();
       });
     }
     else{
-      console.log('ret_has != hash');
       res.status(400).end();
     }
     });

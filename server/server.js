@@ -29,8 +29,6 @@ function restrict(req, res, next) {
     //var cook = req.cookies["connect.sid"];
 
   var cook = req.query.sid;
-  console.log(cook);
-  console.log(req.session.user);
   //cook = cook.substring(cook.indexOf(':')+1, cook.indexOf('.'));
   //if (req.session.user && cook == req.session.id) {
   if (true) {
