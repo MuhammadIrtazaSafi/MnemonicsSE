@@ -238,17 +238,33 @@
       catch (e){console.log('error getting previous mnemonic');}
     };
 
-    factoryObj.getLocalMnemonicSet = function(){
-      $http.get("http://localhost:8000/locationMnemonics",{params:{lat:28, long:-81}})
-        .success(function(response){
+    factoryObj.getLocalMnemonicSet = function() {
+      $http.get("http://localhost:8000/locationMnemonics", {params: {lat: 28, long: -81}})
+        .success(function (response) {
           //callback(response,false);
           console.log(response);
         })
-        .error(function(error){
+        .error(function (error) {
           //callback(false,error);
           console.log("error getting location mnemonics from server");
         });
     };
+
+
+      factoryObj.getUserMnemonicSet = function() {
+        $http.get("http://localhost:8000/userMnemonic", {params:{username: username, word_id:679}})
+          .success(function (response) {
+            //callback(response,false);
+            console.log(response);
+          })
+          .error(function (error) {
+            //callback(false,error);
+            console.log("error getting user mnemonics from server");
+          });
+      };
+
+
+
 
 
 
