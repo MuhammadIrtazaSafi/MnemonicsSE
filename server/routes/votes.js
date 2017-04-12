@@ -16,7 +16,7 @@ module.exports = {
     })
   },
   subtractVote : function(req, res){
-    var q = "UPDATE mnemonics SET rating=rating-1 WHERE mn_id="+req.body.mn_id+";";
+    var q = "UPDATE mnemonics SET rating=rating-1 WHERE mn_id="+req.body.mn_id+"; DELETE FROM mnemonics WHERE rating<=-4";
     var promise = db.executeQuery(q);
     promise.then(function(rows){
       res.status(200).end();
