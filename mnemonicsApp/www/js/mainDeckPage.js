@@ -13,16 +13,7 @@
 
 
     $scope.deckClicked = function(){
-      comService.getWords(function(err,rez) {
-        if(err){
-          alert('Could not connect to server')
-        } else {
-          // recieve deck of words here
-        }
-
-
-      });
-
+      //comService.mergeMnemonicSets();
     };
 
     /*

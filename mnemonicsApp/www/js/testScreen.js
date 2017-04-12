@@ -6,7 +6,7 @@
   var settings = angular.module('mnemonics.testScreen', ['ngCordova','mnemonics.comService','ngAnimate']);
 
 
-  settings.controller('testScreenController', function ($scope, $http, $state, comService) {
+  settings.controller('testScreenController', function ($scope, $http, $state, comService, $rootScope) {
     //comService.getWords();
 
     $scope.goBack = function(){
@@ -69,7 +69,6 @@
 
     $scope.setFirstMnemonic = function(){
       $scope.currentMnemonic = comService.getFirstMnemonic($scope.currentWord.word_id);
-      //console.log("first mnemonic: "+$scope.currentMnemonic);
     };
 
     $scope.setNextMnemonic = function(){
@@ -86,6 +85,15 @@
       $scope.currentMnemonic = comService.getMnemonic($scope.currentWord.word_id, $scope.mnemonicIndex);
     }
     catch (e){console.log("error getting mnemonic for word")}
+
+    $rootScope.$on('ts', function(){
+      setTimeout(function() {
+        $scope.setFirstMnemonic();
+        $scope.$apply();
+      },400);
+
+
+    });
 
 
   });

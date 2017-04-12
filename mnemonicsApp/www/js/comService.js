@@ -34,7 +34,7 @@
   var mnArrayObject =  function(){
     return {mnemonics:[]};
   };
-  var mnWordArray = [new mnArrayObject()];
+  var mnWordArray = [];
   var manualEntry = [
     ["Slimy", "Catch Fish"],
     ["It can be red, green, whatever", "fell on Newton's head", "Sometimes has worms in it", "pretty good in the morning"],
@@ -57,7 +57,9 @@
     ["America's passtime","boring as F","Cubs are current champs (world series)"],
     []
   ];
-  for(var i=0;i<wordArray.length;i++) {
+
+
+  /*for(var i=0;i<wordArray.length;i++) {
     if (!mnWordArray[i]) {
       mnWordArray.push(new mnArrayObject());
     }
@@ -71,7 +73,13 @@
           long:0,
           rating:0})
     }
-  }
+  }*/
+
+
+  var userMnemonicSet=[];
+  var locationMnemonicSet=[];
+  var mnemonicSet=[];
+
   var mnemonicIndex=0;
   var currentWordID=0;
   var username="";
@@ -152,16 +160,6 @@
     };
 
 
-
-    factoryObj.upVoteMnemonic = function(id, callback){
-      $http.post("http://localhost:8000/upvote",{id:id})
-        .success(function(response){
-          callback(response,false);
-        })
-        .error(function(error){
-          callback(false,error);
-        });
-    };
     factoryObj.downVoteMnemonic = function(id, callback){
       $http.post("http://localhost:8000/downvote",{id:id})
         .success(function(response){
@@ -210,39 +208,12 @@
       }
     };
 
-    factoryObj.getMnemonic = function(word_id,index){
-      //console.log("getMnemonic called with word ID: "+word_id+" and index: "+index);
-      //return mnWordArray[word_id].mnemonics[index];
-    };
-
-    factoryObj.getFirstMnemonic = function(word_id){
-      mnemonicIndex=0;
-      return factoryObj.getMnemonic(word_id,mnemonicIndex);
-    };
-
-    factoryObj.getNextMnemonic = function(word_id){
-      try {
-        if (mnWordArray[word_id].mnemonics[mnemonicIndex + 1])
-          mnemonicIndex++;
-        return factoryObj.getMnemonic(word_id, mnemonicIndex);
-      }
-      catch (e){console.log('error getting next mnemonic');}
-    };
-
-    factoryObj.getPrevMnemonic = function(word_id){
-      try {
-        if (mnWordArray[word_id].mnemonics[mnemonicIndex - 1])
-          mnemonicIndex--;
-        return factoryObj.getMnemonic(word_id, mnemonicIndex);
-      }
-      catch (e){console.log('error getting previous mnemonic');}
-    };
 
     factoryObj.getLocalMnemonicSet = function() {
       $http.get("http://localhost:8000/locationMnemonics", {params: {lat: 28, long: -81}})
         .success(function (response) {
           //callback(response,false);
-          console.log(response);
+          locationMnemonicSet=response;
         })
         .error(function (error) {
           //callback(false,error);
@@ -255,13 +226,97 @@
         $http.get("http://localhost:8000/userMnemonic", {params:{username: username, word_id:679}})
           .success(function (response) {
             //callback(response,false);
-            console.log(response);
+            userMnemonicSet=response;
           })
           .error(function (error) {
             //callback(false,error);
             console.log("error getting user mnemonics from server");
           });
       };
+
+      factoryObj.mergeMnemonicSets = function(){
+          console.log('combining sets');
+          var mnemonicArray=[];
+          var mnIDs=[];
+          for(var i=0;i<userMnemonicSet.length;i++){
+            tempMn=userMnemonicSet[i];
+            var newMnemonic = {
+              word_id:tempMn.word_id,
+              mn_id:tempMn.mn_id,
+              mnemonic:tempMn.mnemonic,
+              rating:tempMn.rating
+            };
+            mnemonicArray.push(newMnemonic);
+            mnIDs.push(newMnemonic.mn_id);
+          }
+          for(i=0;i<locationMnemonicSet.length;i++){
+            tempMn=locationMnemonicSet[i];
+            var newMnemonic = {
+              word_id:tempMn.word_id,
+              mn_id:tempMn.mn_id,
+              mnemonic:tempMn.mnemonic,
+              rating:tempMn.rating
+            };
+            if(mnIDs.indexOf(newMnemonic.mn_id)<0){
+              mnemonicArray.push(newMnemonic);
+            }
+          }
+          //set the global array
+          mnemonicSet=mnemonicArray;
+        };
+
+      factoryObj.parseWordMnemonics = function(){
+        var wordMnemonics=[];
+        for(i=0;i<mnemonicSet.length;i++){
+          if(mnemonicSet[i].word_id==currentWordID){
+            wordMnemonics.push(mnemonicSet[i]);
+          }
+        }
+        mnWordArray=wordMnemonics;
+      };
+
+      factoryObj.pushThenPull = function () { //automate the process
+        factoryObj.getLocalMnemonicSet();
+        factoryObj.getUserMnemonicSet();
+        setTimeout(function() {
+          factoryObj.mergeMnemonicSets();
+          factoryObj.parseWordMnemonics();
+        },200);
+        $rootScope.$emit('ts');
+      };
+
+    factoryObj.getMnemonic = function(word_id,index){
+      try{
+        return mnWordArray[index];
+      }
+      catch (e){
+        console.log("getMnemonic called with index value of "+index+" and error thrown");
+      }
+    };
+
+    factoryObj.getFirstMnemonic = function(word_id){
+      mnemonicIndex=0;
+      factoryObj.parseWordMnemonics();
+      return factoryObj.getMnemonic(word_id,mnemonicIndex);
+    };
+
+    factoryObj.getNextMnemonic = function(word_id){
+      try {
+        if (mnWordArray[mnemonicIndex + 1])
+          mnemonicIndex++;
+        return factoryObj.getMnemonic(word_id, mnemonicIndex);
+      }
+      catch (e){console.log('error getting next mnemonic');}
+    };
+
+    factoryObj.getPrevMnemonic = function(word_id){
+      try {
+        if (mnWordArray[mnemonicIndex - 1])
+          mnemonicIndex--;
+        return factoryObj.getMnemonic(word_id, mnemonicIndex);
+      }
+      catch (e){console.log('error getting previous mnemonic');}
+    };
 
 
 
@@ -274,14 +329,30 @@
 
     factoryObj.upVoteMnemonic = function(upVotedMnemonic){
       try {
-        console.log('upvote of ' + upVotedMnemonic.mnemonic + " for word id:" + currentWordID);
+        console.log('upvote of ' + upVotedMnemonic.mn_id + " for word id:" + currentWordID);
+        $http.post("http://localhost:8000/upvote",{mn_id:upVotedMnemonic.mn_id})
+          .success(function(response){
+            //callback(response,false);
+          })
+          .error(function(error){
+            console.log('server did not accept upvote');
+            //callback(false,error);
+          });
       }
       catch (e){console.log('error upvoting mnemonic');}
     };
 
     factoryObj.downVoteMnemonic = function(downVotedMnemonic){
       try {
-        console.log('downvote of ' + downVotedMnemonic.mnemonic + " for word id:" + currentWordID);
+        console.log('downvote of ' + downVotedMnemonic.mn_id + " for word id:" + currentWordID);
+        $http.post("http://localhost:8000/downvote",{mn_id:downVotedMnemonic.mn_id})
+          .success(function(response){
+            //callback(response,false);
+          })
+          .error(function(error){
+            //callback(false,error);
+            console.log('server did not accept down vote');
+          });
       }
       catch (e){console.log('error downvoting mnemonic');}
     };
