@@ -24,3 +24,10 @@ except:
     e = sys.exc_info()[0]
     print e
 
+
+
+
+# Add mnemonic to each word
+# Latitude, Longitude 28.538336, -81.379234.
+
+
