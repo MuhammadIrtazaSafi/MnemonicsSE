@@ -9,7 +9,8 @@ module.exports = {
     });
   },
   addMnemonic : function(req,res){
-    q = "(SELECT user_id FROM users WHERE username ='"+req.session.user.username+"')";
+      //q = "(SELECT user_id FROM users WHERE username ='"+req.session.user.username+"')";
+    q = "(SELECT user_id FROM users WHERE username ='"+req.body.username+"')";
     x = "INSERT INTO mnemonics (user_id, word_id, mnemonic, lat, long, rating) VALUES ("+q+",'"+req.body.word_id+"','"+ req.body.mnemonic+"','"+ req.body.lat+"','"+ req.body.long+"',0)";
     var promise = db.executeQuery(x);
     promise.then(function(result){  
@@ -20,23 +21,26 @@ module.exports = {
     })
   },
   getUserMnemonic : function(req,res){
-    q = "(SELECT user_id FROM users WHERE username ='"+req.session.user.username+"')";
+      //q = "(SELECT user_id FROM users WHERE username ='"+req.session.user.username+"')";
+    q = "(SELECT user_id FROM users WHERE username ='"+req.query.username+"')";
     x = "SELECT * FROM mnemonics WHERE user_id = "+q+" AND word_id = '"+req.query.word_id+"'";
     var promise = db.executeQuery(x);
     promise.then(function(result){  
       res.json(result.rows).end();
     })
     .catch(function(err){
+        console.log("there was an error in query :"+err);
       res.status(400).end();
     })
    },
    locationMnemonics : function(req, res){
     user_lat = parseFloat(req.query.lat)
     user_long = parseFloat(req.query.long)
-    q = 'select w.word_id, w.word, w.def, m.mn_id, m.rating, m.mnemonic FROM words w, mnemonics m WHERE (m.lat BETWEEN ' + (user_lat - .2) + ' and ' + (user_lat + .2) + ') AND (m.long BETWEEN ' +(user_long - .2) + ' and ' + (user_long + .2) + ') AND m.word_id = w.word_id ORDER BY m.rating;' 
+       console.log(user_lat+" "+user_long);
+    q = 'select w.word_id, w.word, w.def, m.mn_id, m.rating, m.mnemonic FROM words w, mnemonics m WHERE (m.lat BETWEEN ' + (user_lat - 2) + ' and ' + (user_lat + 2) + ') AND (m.long BETWEEN ' +(user_long - 2) + ' and ' + (user_long + 2) + ') AND m.word_id = w.word_id ORDER BY m.rating;'
     var promise = db.executeQuery(q);
     promise.then(function(result){
-      res.json(result.rows).status(200).end();  
+      res.json(result.rows).status(200).end();
     })
     .catch(function(err){
       console.log(err);

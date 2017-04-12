@@ -6,12 +6,17 @@
 (function(){
 
 
-  var mainDeckPage = angular.module('mnemonics.mainDeckPage', ['ngCordova']);
+  var mainDeckPage = angular.module('mnemonics.mainDeckPage', ['ngCordova','mnemonics.comService']);
 
 
-  mainDeckPage.controller('mainDeckPageController', function ($scope, $http,$state,$cordovaGeolocation) {
+  mainDeckPage.controller('mainDeckPageController', function ($scope, $http,$state,$cordovaGeolocation,comService) {
 
 
+    $scope.deckClicked = function(){
+      //comService.mergeMnemonicSets();
+    };
+
+    /*
     var posOptions = {timeout: 10000, enableHighAccuracy: false};
     $cordovaGeolocation
       .getCurrentPosition(posOptions)
@@ -24,7 +29,7 @@
       }, function(err) {
         // error
       });
-
+*/
 
   });
 

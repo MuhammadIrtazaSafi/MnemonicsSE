@@ -10,15 +10,17 @@
 
   login.controller('loginController', function ($scope, $http,$state,comService) {
 
-    $scope.data = {userName:'',password:''};
+    $scope.data = {username:'',password:''};
     $scope.login = function(){
 
       comService.login($scope.data,function(rez,err){
         if(err){
-          alert('Cannot Login. Please check your internet connection')
+          console.log('Cannot Login. Please check your internet connection')
         } else {
           // save cookie in rez
-          alert('LOGIN SUCCESSFUL');
+          console.log('LOGIN SUCCESSFUL');
+          comService.getWords();
+          comService.pushThenPull();
           $state.go('mainDeckPage');
 
         }

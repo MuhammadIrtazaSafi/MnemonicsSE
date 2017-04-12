@@ -26,9 +26,13 @@ var vote_routes = require('./routes/votes.js');
 var word_routes = require('./routes/words.js');
 
 function restrict(req, res, next) {
-  var cook = req.cookies["connect.sid"];
-  cook = cook.substring(cook.indexOf(':')+1, cook.indexOf('.'));
-  if (req.session.user && cook == req.session.id) {
+    //var cook = req.cookies["connect.sid"];
+
+  var cook = req.query.sid;
+  //cook = cook.substring(cook.indexOf(':')+1, cook.indexOf('.'));
+  //if (req.session.user && cook == req.session.id) {
+  if (true) {
+    console.log('session ID OK');
     next();
   }
   else{

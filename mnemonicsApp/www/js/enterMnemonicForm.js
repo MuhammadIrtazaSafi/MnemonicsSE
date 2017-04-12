@@ -7,7 +7,7 @@
   var settings = angular.module('mnemonics.enterMnemonicForm', ['ngCordova']);
 
 
-  settings.controller('enterMnemonicFormController', function ($scope, $http, $state, comService) {
+  settings.controller('enterMnemonicFormController', function ($scope, $http, $state, comService, $rootScope) {
 
     $scope.goBack = function(){
       $state.go('testScreen');
@@ -18,7 +18,11 @@
       //console.log('Submit Pressed for word_id: '+ comService.getCurrentWordID());
 
       if(newMnemonicText)
-        comService.sendNewMnemonic(newMnemonicText);
+        comService.addMnemonic(newMnemonicText, function(){
+          comService.pushThenPull();
+        });
+
+      //$rootScope.$broadcast('ts');
       $state.go('testScreen');
     };
 
