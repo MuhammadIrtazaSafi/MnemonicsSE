@@ -67,7 +67,7 @@ describe('Words', function(){
                 done();
             })
     });
-
+    //Specific word from database needs to be added
     it('Should add a mnenonic to a word', function(done){
         chai.request(server)
             .post('/addMnemonic')
@@ -99,7 +99,7 @@ describe('Words', function(){
 
 
 describe('Votes', function(){
-
+    //Mnemonic ID needs to be added
     it('Should add upvote to given mnemonic', function(done) {
         chai.request(server)
             .post('/addVote')
