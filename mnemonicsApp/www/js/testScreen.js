@@ -31,12 +31,14 @@
     $scope.voteUp = function(){
       //console.log('vote up pressed');
       comService.upVoteMnemonic($scope.currentMnemonic);
+      $scope.currentMnemonic.rating++;
 
     };
 
     $scope.voteDown = function(){
       //console.log('vote down pressed');
       comService.downVoteMnemonic($scope.currentMnemonic);
+      $scope.currentMnemonic.rating--;
     };
 
     $scope.mnemonicLeft = function(){
@@ -90,7 +92,8 @@
       setTimeout(function() {
         $scope.setFirstMnemonic();
         $scope.$apply();
-      },400);
+        console.log('ts picked up by test screen');
+      },600);
 
 
     });

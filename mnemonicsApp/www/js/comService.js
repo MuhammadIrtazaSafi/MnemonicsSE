@@ -134,24 +134,37 @@
     factoryObj.addMnemonic = function(data,callback) {
       var lat,long;
       var posOptions = {timeout: 10000, enableHighAccuracy: false};
+
       $cordovaGeolocation
         .getCurrentPosition(posOptions)
         .then(function (position) {
            lat  = position.coords.latitude;
-           long = position.coords.longitude;
+           long = position.coords.longitude
 
-          console.log(lat);
-          console.log(long);
-          $http.post("http://localhost:8000/mnemonic", {word_id:currentWordID, mnemonic:data, lat:lat, long:long, username:username}) // to be posted     x = "INSERT INTO mnemonics (user_id, word_id, mnemonic, lat, long, rating) VALUES ("+q+",'"+req.body.word_id+"','"+ req.body.mnemonic+"','"+ req.body.lat+"','"+ req.body.long+"',0)";
+          //console.log(lat);
+          //console.log(long);
+          //$http.post("http://localhost:8000/mnemonic", {word_id:currentWordID, mnemonic:data, lat:lat, long:long, username:username}) // to be posted     x = "INSERT INTO mnemonics (user_id, word_id, mnemonic, lat, long, rating) VALUES ("+q+",'"+req.body.word_id+"','"+ req.body.mnemonic+"','"+ req.body.lat+"','"+ req.body.long+"',0)";
             .success(function (response) {
+              console.log(lat);
+              console.log(long);
+              $http.post("http://localhost:8000/mnemonic", {word_id:currentWordID, mnemonic:data, lat:lat, long:long, username:username});// to be posted     x = "INSERT INTO mnemonics (user_id, word_id, mnemonic, lat, long, rating) VALUES ("+q+",'"+req.body.word_id+"','"+ req.body.mnemonic+"','"+ req.body.lat+"','"+ req.body.long+"',0)";
+
               callback(response, false);
             })
             .error(function (error) {
+
               callback(false, true)
             });
 
 
         }, function(err) {
+          lat  = 28;
+          long = -81;
+          console.log(lat);
+          console.log(long);
+          $http.post("http://localhost:8000/mnemonic", {word_id:currentWordID, mnemonic:data, lat:lat, long:long, username:username}); // to be posted     x = "INSERT INTO mnemonics (user_id, word_id, mnemonic, lat, long, rating) VALUES ("+q+",'"+req.body.word_id+"','"+ req.body.mnemonic+"','"+ req.body.lat+"','"+ req.body.long+"',0)";
+          callback(false);
+
           // error
         });
 
@@ -263,7 +276,8 @@
           }
           //set the global array
           mnemonicSet=mnemonicArray;
-        };
+
+      };
 
       factoryObj.parseWordMnemonics = function(){
         var wordMnemonics=[];
@@ -273,6 +287,7 @@
           }
         }
         mnWordArray=wordMnemonics;
+        console.log(mnWordArray);
       };
 
       factoryObj.pushThenPull = function () { //automate the process
@@ -281,7 +296,8 @@
         setTimeout(function() {
           factoryObj.mergeMnemonicSets();
           factoryObj.parseWordMnemonics();
-        },200);
+
+        },500);
         $rootScope.$emit('ts');
       };
 
@@ -348,6 +364,11 @@
         $http.post("http://localhost:8000/downvote",{mn_id:downVotedMnemonic.mn_id})
           .success(function(response){
             //callback(response,false);
+            if(downVotedMnemonic.rating<=-4){
+              setTimeout(function() {
+                factoryObj.pushThenPull();
+              },500);
+            }
           })
           .error(function(error){
             //callback(false,error);

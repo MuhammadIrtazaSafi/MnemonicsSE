@@ -19,7 +19,11 @@
 
       if(newMnemonicText)
         comService.addMnemonic(newMnemonicText, function(){
-          comService.pushThenPull();
+          setTimeout(function() {
+            comService.pushThenPull();
+
+          },500);
+
         });
 
       //$rootScope.$broadcast('ts');
